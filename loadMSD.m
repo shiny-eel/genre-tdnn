@@ -26,11 +26,20 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-extracted_songs=[];
+one=h5.get_track_id();
+two=get_middle_elements(h5.get_segments_timbre());
+three=h5.get_segments_pitches();
+four=h5.get_segments_loudness_start();
+
+extracted_songs={};
 for current_song = 1:numel(all_files)
-    %disp([current_song]);
     current_h5=HDF5_Song_File_Reader(all_files{current_song});
-    current_song_array=[current_h5.get_song_id(), current_h5.get_segments_timbre(), current_h5.get_segments_pitches(), current_h5.get_segments_loudness_start()];
-    cat(1, extracted_songs, current_h5);
+    current_song_cell={
+        current_h5.get_track_id(),
+        get_middle_elements(current_h5.get_segments_timbre()),
+        get_middle_elements(current_h5.get_segments_pitches()),
+        get_middle_elements(current_h5.get_segments_loudness_start()),
+    };
+    extracted_songs{end+1} = current_song_cell;
 end
-disp([extractedSongs]);
+%disp(extractedSongs);
