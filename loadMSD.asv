@@ -30,7 +30,10 @@ extracted_songs=[];
 for current_song = 1:numel(all_files)
     %disp([current_song]);
     current_h5=HDF5_Song_File_Reader(all_files{current_song});
-    current_song_array=[current_h5.get_song_id(), current_h5.get_segments_timbre(), current_h5.get_segments_pitches(), current_h5.get_segments_loudness_start()];
+    current_song_array=[current_h5.get_song_id(), get_segments_timbre(),
+        get_segments_pitches(),
+        get_segments_loudness(),
+    ];
     cat(1, extracted_songs, current_h5);
 end
 disp([extractedSongs]);
