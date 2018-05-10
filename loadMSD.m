@@ -24,7 +24,7 @@ disp(['Number of h5 files found: ',num2str(cnt)]);
 h5 = HDF5_Song_File_Reader(all_files{1});
 disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
-%disp(['segment timbres: ',h5.get_segments_timbre()]);
+fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
 extracted_songs=[];
 for current_song = 1:numel(all_files)
