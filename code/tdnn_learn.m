@@ -2,8 +2,9 @@ function [trainResults, testResults, bestParams, avgCorr, bestNN] = ...
     tdnn_learn(trainIn, trainOut, testIn, testOut, config, visuals)
 % A base for a TDNN training function
 % Inputs:
-%   trainIn, trainOut: n X 1 array of doubles
-%   testIn, testOut: m X 1 array of doubles
+%   trainIn: 1 X n array of doubles
+%   testIn: 1 X m array of doubles
+%   testIn, testOut: classification columns
 %   config: structure containing delays, neurons, algos.
 %       delays: integer array denoting the maximum delay to try train NN with
 %       neurons: integer array giving sizes of neuron layers to try
