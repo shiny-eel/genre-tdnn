@@ -54,8 +54,10 @@ for neuron = neurons
 %             [Xs,Xi,Ai,Ts] = preparets(TDNN,X,T);
             TDNN = train(TDNN,X, T);
             % compute correlation coefficients.
-%             nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false), tonndata((trainIn(1:(delay))), false, false))));
-            nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false))));
+            most = tonndata(trainIn, false, false);
+            extra =  tonndata((trainIn(1:(delay))), false, false);
+             nnTrainOutput = cell2mat(transpose(TDNN(most)));
+%             nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false))));
             nnTrainCorr = corr(nnTrainOutput, transpose(trainOut));
             nnOutputNet = TDNN(  tonndata(testIn, false, false) );
             nnTestOutput = cell2mat(transpose(nnOutputNet));
