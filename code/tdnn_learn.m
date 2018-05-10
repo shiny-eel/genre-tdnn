@@ -18,10 +18,7 @@ function [trainResults, testResults, bestParams, avgCorr, bestNN] = ...
 %      algo: algo used
 
 if visuals
-    plotCorrelation(trainIn(:), trainOut(:), 2, ...
-        'Original training ECG and EGM', 'Training ECG', 'Training EGM');
-    plotCorrelation(testIn(:), testOut(:), 4, ...
-        'Original test ECG and EGM', 'Test ECG', 'Test EGM');
+%     Nothing here yet
 end
 delays = config.delays;
 algos = config.algos;
@@ -46,21 +43,22 @@ for neuron = neurons
         fprintf("Trying: "+neuron+" neurons | "+delay+" delay window\n");
         timeStart = tic;
         for algo = algos
-            [X, nX] = tonndata(trainIn, false, false);
-            [T, nT] = tonndata(trainOut, false, false);
+            X = tonndata(trainIn, false, false);
+            T = tonndata(trainOut, false, false);
             TDNN = timedelaynet((0:delay), neurons, char(algo));
             TDNN.trainParam.showWindow = false;
             TDNN.trainParam.showCommandLine = false;
 
             % preparets+train trains the TDNN
-            [Xs,Xi,Ai,Ts] = preparets(TDNN,X,T);
-            TDNN = train(TDNN,Xs,Ts, Xi, Ai);
+%             [Xs,Xi,Ai,Ts] = preparets(TDNN,X,T);
+            TDNN = train(TDNN,X, T);
             % compute correlation coefficients.
-            nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false), tonndata((trainIn(1:(delay))), false, false))));
-            nnTrainCorr = corr(nnTrainOutput, trainOut(:));
-            nnOutputNet = TDNN(  tonndata(testIn(:), false, false), tonndata(testIn(1:(delay)), false, false)  );
+%             nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false), tonndata((trainIn(1:(delay))), false, false))));
+            nnTrainOutput = cell2mat(transpose(TDNN(tonndata(trainIn, false, false))));
+            nnTrainCorr = corr(nnTrainOutput, transpose(trainOut));
+            nnOutputNet = TDNN(  tonndata(testIn, false, false) );
             nnTestOutput = cell2mat(transpose(nnOutputNet));
-            nnTestCorr = corr(nnTestOutput, testOut(:));
+            nnTestCorr = corr(nnTestOutput, transpose(testOut));
             avg = (nnTrainCorr+nnTestCorr)/2.0;
 
             results_vft(count) = {[avg; nnTrainCorr; nnTestCorr; neuron; delay; algo]};
@@ -71,8 +69,8 @@ for neuron = neurons
                 bestResult(1) = {[max_avg; neuron;delay; count; algo]};
                 bestNN = TDNN;
                 if visuals
-                    quickPlotter(trainOut(:),transpose(train_vft{count,1}), 1, 'Training Set');
-                    quickPlotter(testOut(:), transpose( test_vft{count,1}), 3, 'Test Set');
+%                     quickPlotter(trainOut(:),transpose(train_vft{count,1}), 1, 'Training Set');
+%                     quickPlotter(testOut(:), transpose( test_vft{count,1}), 3, 'Test Set');
                 end
             end
 
@@ -93,13 +91,5 @@ trainResults = transpose(train_vft{best,1});
 testResults = transpose(test_vft{best,1});
 avgCorr = bestResult{1}(1);
 
-% plotCorrelation(trainOut(:),trainResults, 1, ...
-%     'Training Set', 'Training EGM', 'NN Output');
-% plotCorrelation(testIn(1:testSetLength), testOut(1:testSetLength), 2, ...
-%     'Original test ECG and EGM', 'Test ECG', 'Test EGM');
-%
-% plotCorrelation(testOut(1:testSetLength), testResults, 3,...
-%     'Test Set EGM', 'Test EGM', 'NN Output');
-%
 
 end
