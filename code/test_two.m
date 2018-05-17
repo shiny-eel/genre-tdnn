@@ -32,9 +32,9 @@ trainIn = tonndata(input, true, false);
 
 singleTarget = [repmat( g1,1,len ),repmat( g2,1,len ),repmat( g3,1,len ), repmat(g4,1,len)];
 target = [singleTarget, singleTarget];
-% figure();
-% plot(transpose(target)); hold on;
-% plot(transpose(input));
+figure();
+plot(transpose(target)); hold on;
+plot(transpose(input));
 trainTarget = tonndata( target, true, false); 
 
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
@@ -47,6 +47,7 @@ mat = cell2mat(nnOutput);
 figure();
 plot(transpose(mat));
 legend('1','2','3','4');
+
 % predicc{2} = mean(mat,2);
 
 % testA = tonndata(song(1,1:len),true,false);
