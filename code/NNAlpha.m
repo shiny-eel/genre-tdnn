@@ -1,8 +1,7 @@
 % NNAlpha.m is an example script of how to run the TDNN.
-
 clear;clc;close all;
 
-load('sample-data.mat')
+load('samples/sample-data.mat')
 myTDNN = createTDNN();
 myTDNN = trainNN(myTDNN, input, target);
 [singleOut, fullOut] = getClassification(myTDNN, input(1:600,:));
