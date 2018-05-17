@@ -14,7 +14,6 @@ assert(exist(msd_code_path,'dir')==7,['msd_code_path ',msd_code_path,' is wrong.
 % add to the path
 addpath([msd_code_path,'/MatlabSrc']);
 
-
 % Build a list of all the files in the dataset
 all_files = findAllFiles(msd_data_path);
 cnt = length(all_files);
@@ -26,7 +25,7 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-%load genre classifications
+% Load genre classifications
 data = importdata('MillionSongSubset/genreAssignment.txt');
 x = data(:,1); % column 1 of the data text file is assigned the variable x
 y = data(:,2); % column 2 is assigned the variable y
@@ -41,8 +40,7 @@ idTable = table(cellfun(@(x) char(x),ids,'UniformOutput',false),'VariableNames',
 genreSongsTable = unique(genreSongsTable);
 intersection = innerjoin(idTable,genreSongsTable);
 
-
-%Load features
+% Load features
 one=h5.get_track_id();
 two=get_middle_elements(h5.get_segments_timbre());
 three=h5.get_segments_pitches();
