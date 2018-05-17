@@ -11,7 +11,8 @@ function [singleOutput, fullOutput] = getClassification(TDNN,input)
 %       averaged values for each of the output dimensions (g)
 % fullOutput: t x g time-variant values for each output dimension
 delay = TDNN.numInputDelays;
-formattedInput = tonndata([input;input(1:delay)], false, false);
+formattedInput = [ tonndata(input, false, false), ...
+    tonndata(input(1:delay, :), false, false)];
 nnOutput = TDNN(formattedInput);
 mat = transpose(cell2mat(nnOutput));
 % A(1,:)=[];

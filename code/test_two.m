@@ -18,17 +18,30 @@ g3 = [0;0;1;0];
 g4 = [0;0;0;1];
 
 % Getting a single feature for 4 different songs
-song(1,:) = test_get_feature(20, 1);
-song(2,:) = test_get_feature(10, 1);
-song(3,:) = test_get_feature(12, 1);
-song(4,:) = test_get_feature(8, 1);
+f1(1,:) = test_get_feature(20, 1);
+f1(2,:) = test_get_feature(10, 1);
+f1(3,:) = test_get_feature(12, 1);
+f1(4,:) = test_get_feature(8, 1);
+
+f2(1,:) = test_get_feature(20, 12);
+f2(2,:) = test_get_feature(10, 12);
+f2(3,:) = test_get_feature(12, 12);
+f2(4,:) = test_get_feature(8, 12);
+
 
 %  Create training set and targets
 len=150;
 len2 = len*2;
-smallInput = [song(1,1:len), song(2,1:len), song(3,1:len), song(4,1:len)];
-doubleSmall = [smallInput, song(1, len+1:len2), song(2, len+1:len2), song(3,len+1:len2), song(4,len+1:len2)];
-trainIn = tonndata(doubleSmall, true, false);
+% Snippets of each song going 1,2,3,4,1,2,3,4
+smallInput1 = [f1(1,1:len), f1(2,1:len), f1(3,1:len), f1(4,1:len)];
+doubleSmall1 = [smallInput1, f1(1, len+1:len2), ...
+    f1(2, len+1:len2), f1(3,len+1:len2), f1(4,len+1:len2)];
+
+smallInput2 = [f2(1,1:len), f2(2,1:len), f2(3,1:len), f2(4,1:len)];
+doubleSmall2 = [smallInput2, f2(1, len+1:len2), ...
+    f2(2, len+1:len2), f2(3,len+1:len2), f2(4,len+1:len2)];
+
+trainIn = tonndata([doubleSmall1;doubleSmall2], true, false);
 
 target = [repmat( g1,1,len ),repmat( g2,1,len ),repmat( g3,1,len ), repmat(g4,1,len)];
 doubleTarget = [target, target];
@@ -37,7 +50,8 @@ doubleTarget = [target, target];
 figure();
 subplot(4,1,1);
 plot(transpose(doubleTarget)); hold on;
-plot(transpose(doubleSmall));
+plot(transpose(doubleSmall1));
+plot(transpose(doubleSmall2));
 title("Input Data");
 trainTarget = tonndata( doubleTarget, true, false); 
 
@@ -45,17 +59,18 @@ trainTarget = tonndata( doubleTarget, true, false);
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
 
-[singleOut, fullOut] = getClassification(TDNN, transpose(smallInput));
+inpTest = transpose([smallInput1;smallInput2]);
+[singleOut, fullOut] = getClassification(TDNN, inpTest);
 
 subplot(4,1,2);
 plot(fullOut);
 legend('1','2','3','4');
-title("Output wave for training data");
+title("Output wave for training data (one sect each genre)");
 
 
 % Feed the NN never-seen-before data
 % NB This is non-deterministic - different results each run.
-in = transpose(song(3,len2:len2+len));
+in = transpose([f1(2,len2:len2+len);f2(2,len2:len2+len)]);
 [singleOut, fullOut] = getClassification(TDNN, in);
 
 % Plot results
