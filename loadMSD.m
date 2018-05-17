@@ -48,17 +48,18 @@ two=get_middle_elements(h5.get_segments_timbre());
 three=h5.get_segments_pitches();
 four=h5.get_segments_loudness_start();
 
-extracted_songs={};
-for current_song = 1:numel(all_files)
-    current_h5=HDF5_Song_File_Reader(all_files{current_song});
-    current_song_cell={
+extractedSongs={};
+for currentSong = 1:numel(all_files)
+    current_h5=HDF5_Song_File_Reader(all_files{currentSong});
+    currentSongCell={
         current_h5.get_track_id(),
         get_middle_elements(current_h5.get_segments_timbre()),
         get_middle_elements(current_h5.get_segments_pitches()),
         get_middle_elements(current_h5.get_segments_loudness_start()),
     };
     %disp(current_song_cell);
-    extracted_songs{end+1} = current_song_cell;
+    extractedSongs{end+1} = currentSongCell;
 end
-disp(extracted_songs);
+extractedSongTable = table(x,y,'VariableNames',{'id' 'genre'});
+disp(extractedSongTable);
 
