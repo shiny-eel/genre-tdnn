@@ -28,4 +28,4 @@ disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
 all_timbre = h5.get_segments_timbre();
-timbre = all_timbre(timbreInd,1:500);
+timbre = normalize(smooth(all_timbre(timbreInd,1:500)));
