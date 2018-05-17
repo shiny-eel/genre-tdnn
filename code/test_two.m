@@ -10,7 +10,6 @@ algo = 'trainlm';
 TDNN = timedelaynet((0:delay), neurons, char(algo));
             TDNN.trainParam.showWindow = false;
             TDNN.trainParam.showCommandLine = true;
-
 % Genres:
 g1 = [1;0;0;0];
 g2 = [0;1;0;0];
@@ -39,7 +38,6 @@ trainTarget = tonndata( target, true, false);
 
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
-
 
 testAll = tonndata(smallInput, true, false);
 nnOutput = TDNN(testAll);
