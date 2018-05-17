@@ -25,15 +25,8 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-% Load genre classifications
-data = importdata('MillionSongSubset/genreAssignment.txt', ' ');
-for currentSongIndex = 1:numel(data)
-    currentData = data{currentSongIndex};
-    dataArray = strsplit(currentData, '	');
-    data{currentSongIndex} = dataArray;
-end
-disp(data);
-
+%load genre classifications
+data = readtable('MillionSongSubset/genreAssignment.txt');
 x = data(:,1); % column 1 of the data text file is assigned the variable x
 y = data(:,2); % column 2 is assigned the variable y
 genreSongs = [x,y];
