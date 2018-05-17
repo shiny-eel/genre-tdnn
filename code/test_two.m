@@ -37,7 +37,7 @@ plot(transpose(target)); hold on;
 plot(transpose(input));
 trainTarget = tonndata( target, true, false); 
 
-[Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget);
+[Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
 
 
