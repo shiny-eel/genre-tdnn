@@ -1,7 +1,7 @@
 % Grab single f(t) feature for each song
 % Train NN using feature
 % Target is f(g) - straight line (in one of 4 dims) where g is the genre.
-clear; clc(); close all;
+clear; clc; close all;
 % delay = 30;
 % neurons = [20, 20];
 delay = 30;
@@ -18,44 +18,54 @@ g3 = [0;0;1;0];
 g4 = [0;0;0;1];
 
 % Getting a single feature for 4 different songs
-song(1,:) = test_get_feature(1, 1);
-song(2,:) = test_get_feature(2, 1);
-song(3,:) = test_get_feature(3, 1);
-song(4,:) = test_get_feature(4, 1);
+song(1,:) = test_get_feature(20, 1);
+song(2,:) = test_get_feature(10, 1);
+song(3,:) = test_get_feature(12, 1);
+song(4,:) = test_get_feature(8, 1);
 
 %  Create training set and targets
-len=125;
+len=150;
 len2 = len*2;
 smallInput = [song(1,1:len), song(2,1:len), song(3,1:len), song(4,1:len)];
-input = [smallInput, song(1, len+1:len2), song(2, len+1:len2), song(3,len+1:len2), song(4,len+1:len2)];
-trainIn = tonndata(input, true, false);
+doubleSmall = [smallInput, song(1, len+1:len2), song(2, len+1:len2), song(3,len+1:len2), song(4,len+1:len2)];
+trainIn = tonndata(doubleSmall, true, false);
 
-singleTarget = [repmat( g1,1,len ),repmat( g2,1,len ),repmat( g3,1,len ), repmat(g4,1,len)];
-target = [singleTarget, singleTarget];
+target = [repmat( g1,1,len ),repmat( g2,1,len ),repmat( g3,1,len ), repmat(g4,1,len)];
+doubleTarget = [target, target];
 
 % Plotting input data
 figure();
-subplot(3,1,1);
-plot(transpose(target)); hold on;
-plot(transpose(input));
+subplot(4,1,1);
+plot(transpose(doubleTarget)); hold on;
+plot(transpose(doubleSmall));
 title("Input Data");
-trainTarget = tonndata( target, true, false); 
+trainTarget = tonndata( doubleTarget, true, false); 
 
 % Format and use data to train
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
 
+[singleOut, fullOut] = getClassification(TDNN, transpose(smallInput));
+
+subplot(4,1,2);
+plot(fullOut);
+legend('1','2','3','4');
+title("Output wave for training data");
+
+
 % Feed the NN never-seen-before data
-[singleOut, fullOut] = getClassification(TDNN, transpose(song(1,len*3:len*3+len)));
+% NB This is non-deterministic - different results each run.
+in = transpose(song(3,len2:len2+len));
+[singleOut, fullOut] = getClassification(TDNN, in);
 
 % Plot results
-subplot(3,1,2);
+subplot(4,1,3);
 plot(fullOut);
 legend('1','2','3','4');
 title("Output wave for unseen data");
-subplot(3,1,3);
+subplot(4,1,4);
 bar(singleOut);
-ylim([0 1])
+ylim([0 1]);
 title("Predicted genre of unseen data");
 
 
