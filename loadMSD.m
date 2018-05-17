@@ -25,7 +25,7 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-%load genre classifications
+% Load songs and genre classifications
 data = readtable('MillionSongSubset/genreAssignment.txt');
 data.Properties.VariableNames = {'id' 'Genre'};
 x = data(:,1); % column 1 of the data text file is assigned the variable x
@@ -40,11 +40,6 @@ genreSongsTable = unique(data);
 intersection = innerjoin(idTable,genreSongsTable);
 
 % Load features
-one=h5.get_track_id();
-two=get_middle_elements(h5.get_segments_timbre());
-three=h5.get_segments_pitches();
-four=h5.get_segments_loudness_start();
-
 extractedSongs={};
 for currentSong = 1:numel(all_files)
     current_h5=HDF5_Song_File_Reader(all_files{currentSong});
