@@ -25,7 +25,6 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-intersection = load('intersection.mat');
 load('intersection.mat')
 
 % Load songs and features
@@ -40,4 +39,8 @@ extractedSongTable=cell2table(extractedSongs, 'VariableNames', {'id' 'featureDat
 
 % Join table [id, features] with table [id, genre]
 finalIntersection = innerjoin(intersection, extractedSongTable);
+
+% TODOs
+% Retrieve middle n (eg 120) segments
+% Build two datasets rather than 1
 
