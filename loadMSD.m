@@ -25,7 +25,7 @@ disp(['artist name is: ',h5.get_artist_name()]);
 disp([' song title is: ',h5.get_title()]);
 fprintf('segment timbres len: %d\n', length(h5.get_segments_timbre()));
 
-% Load songs and genre classifications
+% Load genre classifications
 data = readtable('MillionSongSubset/genreAssignment.txt');
 x = data(:,1); % column 1 of the data text file is assigned the variable x
 y = data(:,2); % column 2 is assigned the variable y
@@ -40,19 +40,17 @@ idTable = table(cellfun(@(x) char(x),ids,'UniformOutput',false),'VariableNames',
 genreSongsTable = unique(genreSongsTable);
 intersection = innerjoin(idTable,genreSongsTable);
 
-% Load features
+% Load songs and features
 extractedSongs={};
-for currentSong = 1:numel(all_files)
+for currentSong = 1:2(all_files)
+    %for currentSong = 1:numel(all_files)
     current_h5=HDF5_Song_File_Reader(all_files{currentSong});
-    currentSongCell={
-        current_h5.get_track_id(),
-        get_middle_elements(current_h5.get_segments_timbre()),
-        get_middle_elements(current_h5.get_segments_pitches()),
-        get_middle_elements(current_h5.get_segments_loudness_start()),
-    };
-    %disp(current_song_cell);
-    extractedSongs{end+1} = currentSongCell;
+    currentSongCell={cat(1, get_middle_elements(current_h5.get_segments_timbre()), get_middle_elements(current_h5.get_segments_pitches()), transpose(get_middle_elements(current_h5.get_segments_loudness_start())))};
+    currentSongArray=[current_h5.get_track_id(), currentSongCell]; 
+    extractedSongs{end + 1}=currentSongCell;
 end
-extractedSongTable = table(x,y,'VariableNames',{'id' 'genre'});
+extractedSongTable=cell2table(extractedSongs);
+%extractedSongTable = table(x,y,'VariableNames',{'id' 'genre'});
 disp(extractedSongTable);
+% Join table [id, features] with table [id, genre]
 
