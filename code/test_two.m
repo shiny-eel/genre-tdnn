@@ -6,7 +6,7 @@ clear; clc(); close all;
 % neurons = [20, 20];
 delay = 30;
 neurons = [25,25];
-algo = "trainlm";
+algo = 'trainlm';
 TDNN = timedelaynet((0:delay), neurons, char(algo));
             TDNN.trainParam.showWindow = false;
             TDNN.trainParam.showCommandLine = true;
