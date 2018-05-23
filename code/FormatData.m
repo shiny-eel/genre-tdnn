@@ -14,26 +14,29 @@ Songs.Rap = data(ismember(data.Genre, {Genre.RAP}),:);
 Songs.PopRock = data(ismember(data.Genre, {Genre.POPROCK}),:);
 Songs.RnB = data(ismember(data.Genre, {Genre.RNB}),:);
 
-% Split 7:3 with equal weightings between genres
 trainSongs=cell2table({});
 validSongs=cell2table({});
-% Iterate through genres
+
 fields = fieldnames(Songs);
 songsPerGenre = 60;
+
+% Split 7:3 with equal weightings between genres
+% Iterate through genres
 for idx = 1:length(fields)
     genreName = fields{idx};
     singleGenre = Songs.(genreName);
     if isstruct(singleGenre)
         disp("OOPS: Shouldn't be a struct");
     elseif istable(singleGenre)
-%         len = height(singleGenre);
+%         Divide songs into test and validate
         boundary = round(0.7*songsPerGenre);
         trainInds = 1 : boundary;
         validateInds = boundary+1 : songsPerGenre;
         if (songsPerGenre > height(singleGenre))
             error("UH OH: Data doesn't have enough songs in that genre.");
         end
-%         songs = (transpose(table2array(singleGenre(trainInds, 'featureData'))));
+        
+%       Add to test/validation collections with all genres
         genreSongs = singleGenre(trainInds,:);
         trainSongs = [trainSongs; genreSongs];
         
@@ -45,7 +48,7 @@ for idx = 1:length(fields)
 end
 
 [trainIn, trainTarget] = tableToNNFormat(trainSongs);
-[validIn, validTarget] = tableToNNFormat(validSongs);
+[validIn, validTarget, validTable] = tableToNNFormat(validSongs);
 % train In = makeMatrix(trainSongs, numSegments);
 % validIn = makeMatrix(validSongs, numSegments);
 
