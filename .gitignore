@@ -3,3 +3,5 @@ mksqlite
 MSongsDB
 *.asv
 *.png
+sample*.mat
+!sample-data.mat
