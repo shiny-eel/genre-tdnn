@@ -6,7 +6,7 @@ addpath('samples');
 dataset = load('samples/sample-with-table.mat');
 
 % EITHER LOAD OR CREATE+TRAIN A TDNN
-% load('tdnn-beta.mat', 'myTDNN');
+% load('tdnns/tdnn-beta.mat', 'myTDNN');
 myTDNN = createTDNN();
 myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
 
