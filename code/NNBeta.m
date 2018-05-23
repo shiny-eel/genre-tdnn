@@ -6,9 +6,13 @@ addpath('samples');
 dataset = load('samples/sample-with-table.mat');
 
 % EITHER LOAD OR CREATE+TRAIN A TDNN
-load('tdnns/tdnn-30-correct.mat', 'myTDNN');
-% myTDNN = createTDNN();
-% myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
+MAKE_NEW = 0;
+if (MAKE_NEW)
+    myTDNN = createTDNN();
+    myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
+else
+    load('tdnns/tdnn-33-correct.mat', 'myTDNN');
+end
 
 % FORMAT A RESULTS TABLE
 myTable = dataset.validTable;
