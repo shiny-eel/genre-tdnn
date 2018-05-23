@@ -6,9 +6,9 @@ addpath('samples');
 dataset = load('samples/sample-with-table.mat');
 
 % EITHER LOAD OR CREATE+TRAIN A TDNN
-% load('tdnns/tdnn-beta.mat', 'myTDNN');
-myTDNN = createTDNN();
-myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
+load('tdnns/tdnn-30-correct.mat', 'myTDNN');
+% myTDNN = createTDNN();
+% myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
 
 % FORMAT A RESULTS TABLE
 myTable = dataset.validTable;
@@ -19,6 +19,7 @@ resultsTable = table(Actual,Predicted, Correct);
 
 numSongs = height(myTable);
 % LOOP THROUGH ALL VALIDATION SONGS
+genreArrayPredicted = zeros(numSongs, 3);
 for i = 1:numSongs
     % Extract features
     featuresMatrix = getFeaturesFromTable(myTable(i, 'featureData'));
@@ -30,16 +31,20 @@ for i = 1:numSongs
     % Plug input into nn
     [singleOut, fullOut] = getClassification(myTDNN, featuresMatrix);
     predictedGenre = arrayToGenre(singleOut);
-    
+    genreArrayPredicted(i,:) = singleOut;
     % Compare
-    isCorrect = strcmpi(genreNameActual,predictedGenre);
+    isCorrect = strcmpi(genreNameActual,predictedGenre);    
     resultsTable(i,:) = {genreNameActual, predictedGenre, isCorrect};
+    
 end
+    genreArrayActual = myTable.genreArray(:,:);
 
 corrects = resultsTable.Correct;
 numCorrect = sum(corrects, 1);
 fprintf("\n RESULT: TDNN correctly predicted " ...
     +"%d out of %d song genres.\n", numCorrect, numSongs);
+
+plotconfusion(genreArrayActual.', genreArrayPredicted.');
 
 % SAVE the tdnn if it is good
 dir = 'tdnns/';
