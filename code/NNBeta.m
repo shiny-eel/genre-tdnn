@@ -44,7 +44,11 @@ numCorrect = sum(corrects, 1);
 fprintf("\n RESULT: TDNN correctly predicted " ...
     +"%d out of %d song genres.\n", numCorrect, numSongs);
 
-plotconfusion(genreArrayActual.', genreArrayPredicted.');
+% Confusion Matrix Plot
+p = plotconfusion(genreArrayActual.', genreArrayPredicted.');
+genres = {'Rap','Rock','RnB'};
+yticklabels(genres);
+xticklabels(genres);
 
 % SAVE the tdnn if it is good
 dir = 'tdnns/';
