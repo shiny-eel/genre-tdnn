@@ -3,6 +3,7 @@ clear;clc;close all;
 
 load('samples/sample-data.mat')
 myTDNN = createTDNN();
+myTDNN.trainParam.showCommandLine = true;
 myTDNN = trainNN(myTDNN, input, target);
 [singleOut, fullOut] = getClassification(myTDNN, input(1:600,:));
 plot(fullOut);
