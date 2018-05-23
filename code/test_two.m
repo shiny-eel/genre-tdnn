@@ -52,7 +52,8 @@ subplot(4,1,1);
 plot(transpose(doubleTarget)); hold on;
 plot(transpose(doubleSmall1));
 plot(transpose(doubleSmall2));
-title("Input Data");
+title("Input Data (2 features)");
+xlabel("time");
 trainTarget = tonndata( doubleTarget, true, false); 
 
 % Format and use data to train
@@ -66,22 +67,28 @@ subplot(4,1,2);
 plot(fullOut);
 legend('1','2','3','4');
 title("Output wave for training data (one sect each genre)");
-
+xlabel("time");
+ylabel("'Confidence' in genre");
 
 % Feed the NN never-seen-before data
 % NB This is non-deterministic - different results each run.
-in = transpose([f1(2,len2:len2+len);f2(2,len2:len2+len)]);
+in = transpose([f1(2,1:len2+len);f2(2,1:len2+len)]);
 [singleOut, fullOut] = getClassification(TDNN, in);
 
 % Plot results
 subplot(4,1,3);
 plot(fullOut);
 legend('1','2','3','4');
-title("Output wave for unseen data");
+title("Output wave for unseen data (Genre 2)");
+xlabel("time");
+ylabel("'Confidence' in genre");
+
 subplot(4,1,4);
 bar(singleOut);
 ylim([0 1]);
-title("Predicted genre of unseen data");
+title("Predicted genre of unseen data (Genre 2)");
+xlabel("time");
+ylabel("'Confidence' in genre");
 
 
 % predicc{2} = mean(mat,2);
