@@ -1,6 +1,5 @@
 clear; clc; close all;
 % Declare genres
-Genre.RAP = 'Rap'; Genre.POPROCK = 'Pop_Rock'; Genre.RNB = 'RnB';
 
 outputFile = 'samples/sample-splits.mat';
 
@@ -9,10 +8,12 @@ outputFile = 'samples/sample-splits.mat';
 sample = load('samples/sample-1846.mat', 'data');
 data = sample.data;
 
-% Split by genre
-Songs.Rap = data(ismember(data.Genre, {Genre.RAP}),:);
-Songs.PopRock = data(ismember(data.Genre, {Genre.POPROCK}),:);
-Songs.RnB = data(ismember(data.Genre, {Genre.RNB}),:);
+% Split by specified genres
+load('lib/genres.mat', 'GenreSets');
+gs = GenreSets.basic;
+Songs.Rap = data(ismember(data.Genre, gs(1)),:);
+Songs.PopRock = data(ismember(data.Genre, gs(2)),:);
+Songs.RnB = data(ismember(data.Genre, gs(3)),:);
 
 trainSongs=cell2table({});
 validSongs=cell2table({});
