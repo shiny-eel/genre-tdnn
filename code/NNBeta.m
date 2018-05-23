@@ -1,39 +1,51 @@
 % NNBeta.m is an example script of how to run the TDNN with the actual data
 clear;clc;close all;
+
+% GET DATA
 addpath('samples');
 dataset = load('samples/sample-with-table.mat');
+
+% EITHER LOAD OR CREATE+TRAIN A TDNN
 % load('tdnn-beta.mat', 'myTDNN');
-% 
- myTDNN = createTDNN();
-% 
- myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
+myTDNN = createTDNN();
+myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
+
+% FORMAT A RESULTS TABLE
 myTable = dataset.validTable;
-numSongs = height(myTable);
 Actual="";
 Predicted="";
 Correct=0;
 resultsTable = table(Actual,Predicted, Correct);
-% result = repmat(" ",[numSongs 2]);
 
+numSongs = height(myTable);
+% LOOP THROUGH ALL VALIDATION SONGS
 for i = 1:numSongs
+    % Extract features
     featuresMatrix = getFeaturesFromTable(myTable(i, 'featureData'));
+    % Extract true genre
     genreCell = myTable.genre(i);
     genreChars = genreCell{:};
     genreNameActual = string(genreChars);
     
+    % Plug input into nn
     [singleOut, fullOut] = getClassification(myTDNN, featuresMatrix);
     predictedGenre = arrayToGenre(singleOut);
     
-%     result(i,:) = [genreNameActual, predictedGenre];
+    % Compare
     isCorrect = strcmpi(genreNameActual,predictedGenre);
     resultsTable(i,:) = {genreNameActual, predictedGenre, isCorrect};
-%     resultsTable(i,'Predicted') = predictedGenre;
 end
 
 corrects = resultsTable.Correct;
-sumthat = sum(corrects, 1);
+numCorrect = sum(corrects, 1);
 fprintf("\n RESULT: TDNN correctly predicted " ...
-    +"%d out of %d song genres.\n", sumthat, numSongs);
+    +"%d out of %d song genres.\n", numCorrect, numSongs);
+
+% SAVE the tdnn if it is good
+dir = 'tdnns/';
+filename = dir+"tdnn-"+numCorrect+"-correct.mat";
+% save(filename, 'myTDNN');
+
 % [singleOut, fullOut] = getClassification(myTDNN, dataset.validIn(901:1200,:));
 % subplot(4,1,3);
 % plot(fullOut);
