@@ -14,6 +14,7 @@ trainTarget = tonndata(target, false, false);
 % Format and use data to train
 % Don't get affected by different delay size.
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); 
+TDNN.trainParam.showCommandLine = true;
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
 
 
