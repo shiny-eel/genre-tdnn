@@ -47,13 +47,13 @@ for idx = 1:length(fields)
     end
 end
 
-[trainIn, trainTarget] = tableToNNFormat(trainSongs);
+[trainIn, trainTarget, trainTable] = tableToNNFormat(trainSongs);
 [validIn, validTarget, validTable] = tableToNNFormat(validSongs);
 % train In = makeMatrix(trainSongs, numSegments);
 % validIn = makeMatrix(validSongs, numSegments);
 
-fprintf("\nNUM SONGS IN TRAINING SPLIT: %d\n", height(trainSongs));
-fprintf("NUM SONGS IN VALID SPLIT: %d\n", height(validSongs));
+fprintf("\nNUM SONGS IN TRAINING SPLIT: %d\n", height(trainTable));
+fprintf("NUM SONGS IN VALID SPLIT: %d\n", height(validTable));
 % 
 % Save to file.
 outputFile = "samples/sample-CHANGEME.mat";
