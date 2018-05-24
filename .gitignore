@@ -6,3 +6,4 @@ MSongsDB
 sample*.mat
 !sample-data.mat
 tdnns
+raw*.mat
