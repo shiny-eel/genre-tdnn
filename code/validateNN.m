@@ -1,6 +1,7 @@
 function [resultsTable] = validateNN(tdnn,dataTable)
 %VALIDATENN Summary of this function goes here
 
+addpath('lib');
 sz = [height(dataTable), 5];
 varTypes = {'string', 'string', 'logical', 'cell','cell'};
 varNames = {'Actual', 'Predicted', 'Correct', 'ActualArray', 'PredArray'};
@@ -28,7 +29,6 @@ for i = 1:numSongs
          {actualGenreArray}, {singleOut}};
 %    newRow = {genreCell, {predictedGenre}, {isCorrect}};
     resultsTable(i,:) = newRow;
-    
 end
 
 end
