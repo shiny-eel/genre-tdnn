@@ -14,7 +14,7 @@ featureData = [];
 outTable = table(id,genre, genreArray,featureData);
 
 
-numSegments = 300;
+numSegments = 400;
 input = [];
 target = [];
 index = 1;
