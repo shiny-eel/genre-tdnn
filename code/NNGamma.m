@@ -32,7 +32,7 @@ otherresultsTable = validateNN(myTDNN, trainTable);
 figure();
 
 p2 = plotResultsTable(otherresultsTable);
-title("Training set");
+title("'Validating' on the training set");
 % SAVE the tdnn if it is good
 dir = 'tdnns/';
 INSERT="CHANGEME";
