@@ -1,16 +1,13 @@
 clear; clc; close all;
 % Declare genres
-
-outputFile = 'samples/sample-splits.mat';
-
+load('lib/genres.mat', 'GenreSets');
+gs = GenreSets.five;
 % Load some data that follows Joe's data format
 % i.e. (Table w id, Genre, features)
-sample = load('samples/raw-1846.mat', 'data');
+sample = load('samples/raw-all.mat', 'data');
 data = sample.data;
 
 % Split by specified genres
-load('lib/genres.mat', 'GenreSets');
-gs = GenreSets.five;
 Songs.Rap = data(ismember(data.Genre, gs(1)),:);
 Songs.PopRock = data(ismember(data.Genre, gs(2)),:);
 Songs.RnB = data(ismember(data.Genre, gs(3)),:);
@@ -21,7 +18,7 @@ trainSongs=cell2table({});
 validSongs=cell2table({});
 
 fields = fieldnames(Songs);
-songsPerGenre = 65;
+songsPerGenre = 120;
 
 % Split 7:3 with equal weightings between genres
 % Iterate through genres
@@ -59,6 +56,7 @@ fprintf("\nNUM SONGS IN TRAINING SPLIT: %d\n", height(trainSongs));
 fprintf("NUM SONGS IN VALID SPLIT: %d\n", height(validSongs));
 % 
 % Save to file.
+outputFile = "samples/sample-CHANGEME.mat";
 % save(outputFile, 'validIn', 'validTarget', 'trainIn', 'trainTarget', 'validTable');
  
 

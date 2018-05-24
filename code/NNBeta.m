@@ -3,13 +3,15 @@ clear;clc;close all;
 
 % GET DATA
 addpath('samples');
-dataset = load('sample-400segs-5genres.mat');
+dataset = load('sample-allsongs-400s-5g.mat');
 load('code/lib/genres.mat', 'GenreSets');
 genres = GenreSets.five;
 % EITHER LOAD OR CREATE+TRAIN A TDNN
 MAKE_NEW = 1;
 if (MAKE_NEW)
     myTDNN = createTDNN();
+    myTDNN.trainParam.showWindow = true;
+
     myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
 else
     load('hello.mat', 'myTDNN');
