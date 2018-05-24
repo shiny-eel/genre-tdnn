@@ -1,9 +1,9 @@
 function [genreArray] = genreToArray(genreChars)
 %GENRETOARRAY Summary of this function goes here
-load('genres.mat', 'GenreSets');
+load('genres.mat', 'GenreSets', 'GenreArrays');
 
-keys = GenreSets.basic;
-values = { [1,0,0], [0,1,0], [0,0,1]};
+keys = GenreSets.five;
+values = GenreArrays.five;
 genreMap = containers.Map(keys,values);
 
 genreArray = genreMap(genreChars);

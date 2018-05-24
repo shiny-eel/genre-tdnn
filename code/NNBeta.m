@@ -3,15 +3,16 @@ clear;clc;close all;
 
 % GET DATA
 addpath('samples');
-dataset = load('samples/sample-with-table.mat');
-
+dataset = load('sample-400segs-5genres.mat');
+load('code/lib/genres.mat', 'GenreSets');
+genres = GenreSets.five;
 % EITHER LOAD OR CREATE+TRAIN A TDNN
-MAKE_NEW = 0;
+MAKE_NEW = 1;
 if (MAKE_NEW)
     myTDNN = createTDNN();
     myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
 else
-    load('tdnns/tdnn-33-correct.mat', 'myTDNN');
+    load('hello.mat', 'myTDNN');
 end
 
 % FORMAT A RESULTS TABLE
@@ -23,7 +24,7 @@ resultsTable = table(Actual,Predicted, Correct);
 
 numSongs = height(myTable);
 % LOOP THROUGH ALL VALIDATION SONGS
-genreArrayPredicted = zeros(numSongs, 3);
+genreArrayPredicted = zeros(numSongs, length(genres));
 for i = 1:numSongs
     % Extract features
     featuresMatrix = getFeaturesFromTable(myTable(i, 'featureData'));
@@ -46,11 +47,10 @@ end
 corrects = resultsTable.Correct;
 numCorrect = sum(corrects, 1);
 fprintf("\n RESULT: TDNN correctly predicted " ...
-    +"%d out of %d song genres.\n", numCorrect, numSongs);
+    +"%d out of %d songs in %d genres.\n", numCorrect, numSongs, length(genres));
 
 % Confusion Matrix Plot
 p = plotconfusion(genreArrayActual.', genreArrayPredicted.');
-genres = {'Rap','Rock','RnB'};
 yticklabels(genres);
 xticklabels(genres);
 

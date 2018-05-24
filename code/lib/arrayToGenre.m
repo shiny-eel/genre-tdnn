@@ -2,7 +2,7 @@ function [genreString] = arrayToGenre(genreArray)
 %GENRETOARRAY Summary of this function goes here
 load('genres.mat', 'GenreSets');
 
-values = GenreSets.basic;
+values = GenreSets.five;
 % keys = { [1,0,0], [0,1,0], [0,0,1]};
 % genreMap = containers.Map(keys,values);
 [M, I] = max(genreArray);
