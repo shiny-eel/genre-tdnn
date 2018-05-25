@@ -1,7 +1,7 @@
 function [resultsTable] = validateNN(tdnn,dataTable)
 %VALIDATENN Summary of this function goes here
 
-addpath('lib');
+addpath('code/lib');
 sz = [height(dataTable), 5];
 varTypes = {'string', 'string', 'logical', 'cell','cell'};
 varNames = {'Actual', 'Predicted', 'Correct', 'ActualArray', 'PredArray'};
