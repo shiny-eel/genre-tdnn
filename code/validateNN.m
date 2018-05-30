@@ -3,9 +3,10 @@ function [resultsTable] = validateNN(tdnn,dataTable)
 
 addpath('lib');
 sz = [height(dataTable), 5];
+cellArray = cell(sz);
 varTypes = {'string', 'string', 'logical', 'cell','cell'};
 varNames = {'Actual', 'Predicted', 'Correct', 'ActualArray', 'PredArray'};
-resultsTable = table('Size',sz,'VariableTypes',varTypes,'VariableNames',varNames);
+%resultsTable = table('Size', sz,'VariableNames',varNames);
 
 numSongs = height(dataTable);
 % LOOP THROUGH ALL VALIDATION SONGS
@@ -28,8 +29,8 @@ for i = 1:numSongs
     newRow = {genreNameActual, predictedGenre, isCorrect, ...
          {actualGenreArray}, {singleOut}};
 %    newRow = {genreCell, {predictedGenre}, {isCorrect}};
-    resultsTable(i,:) = newRow;
+    cellArray(i,:) = newRow;
 end
-
+resultsTable = cell2table(cellArray, 'VariableNames', varNames);
 end
 

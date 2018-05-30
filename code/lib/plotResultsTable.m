@@ -1,7 +1,7 @@
 function [plot] = plotResultsTable(resultsTable)
 %PLOTRESULTSTABLE Summary of this function goes here
 %   Detailed explanation goes here
-load('code/lib/genres.mat', 'GenreSets');
+load('DecadePrediction/decades.mat', 'GenreSets');
 genres = GenreSets.five;
 
     genreArrayActual = cell2mat(resultsTable.ActualArray(:,:));

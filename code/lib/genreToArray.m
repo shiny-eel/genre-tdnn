@@ -1,6 +1,6 @@
 function [genreArray] = genreToArray(genreChars)
 %GENRETOARRAY Summary of this function goes here
-load('genres.mat', 'GenreSets', 'GenreArrays');
+load('DecadePrediction/decades.mat', 'GenreSets', 'GenreArrays');
 
 keys = GenreSets.five;
 values = GenreArrays.five;

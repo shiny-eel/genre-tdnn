@@ -1,6 +1,6 @@
 function [genreString] = arrayToGenre(genreArray)
 %GENRETOARRAY Summary of this function goes here
-load('genres.mat', 'GenreSets');
+load('decades.mat', 'GenreSets');
 
 values = GenreSets.five;
 % keys = { [1,0,0], [0,1,0], [0,0,1]};

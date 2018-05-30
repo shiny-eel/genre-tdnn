@@ -1,11 +1,14 @@
-clear; clc; close all;
+%clear; clc; close all;
 % Declare genres
 load('lib/genres.mat', 'GenreSets');
 gs = GenreSets.five;
 % Load some data that follows Joe's data format
 % i.e. (Table w id, Genre, features)
-sample = load('samples/raw-all.mat', 'data');
-data = sample.data;
+ sample = load('DecadePrediction/raw-all-Decades2.mat');
+%sample = load('samples/raw-all.mat');
+data = sample.finalIntersection;
+data.Properties.VariableNames{2} = 'Genre';
+gs = {'1970','1980','1990','2000','2010'};
 
 % Split by specified genres
 Songs.Rap = data(ismember(data.Genre, gs(1)),:);
@@ -56,7 +59,7 @@ fprintf("\nNUM SONGS IN TRAINING SPLIT: %d\n", height(trainTable));
 fprintf("NUM SONGS IN VALID SPLIT: %d\n", height(validTable));
 % 
 % Save to file.
-outputFile = "samples/sample-CHANGEME.mat";
-% save(outputFile, 'validIn', 'validTarget', 'trainIn', 'trainTarget', 'validTable');
+outputFile = "DecadePrediction/testData-400.mat";
+save(outputFile, 'validIn', 'validTarget', 'trainIn', 'trainTarget', 'validTable');
  
 
