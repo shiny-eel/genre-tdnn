@@ -26,7 +26,7 @@ p = plotResultsTable(resultsTable);
 title("Unseen validation set");
 % hold on;
 
-load('samples/traintable-allsongs-400s-5g.mat', 'trainTable');
+load('DecadePrediction/trainTableDecade.mat', 'trainTable');
 otherresultsTable = validateNN(myTDNN, trainTable);
 % subplot(2,1,2);;;
 figure();

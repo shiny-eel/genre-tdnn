@@ -3,7 +3,7 @@ function [TDNN] = createTDNN(config)
 %   Detailed explanation goes here
 % if (config.delay
 delay = 50;
-neurons = [25:10];
+neurons = [50:40];
 algo = 'traincgp';
 TDNN = timedelaynet((0:delay), neurons, char(algo));
             TDNN.trainParam.showWindow = false;
