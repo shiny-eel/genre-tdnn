@@ -2,7 +2,7 @@ function [plot] = plotResultsTable(resultsTable)
 %PLOTRESULTSTABLE Summary of this function goes here
 %   Detailed explanation goes here
 load('code/lib/genres.mat', 'GenreSets');
-genres = GenreSets.five;
+genres = GenreSets.ten;
 
     genreArrayActual = cell2mat(resultsTable.ActualArray(:,:));
     genreArrayPredicted = cell2mat(resultsTable.PredArray(:,:));

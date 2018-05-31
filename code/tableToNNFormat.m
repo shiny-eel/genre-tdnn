@@ -1,5 +1,5 @@
 function [input, target, outTable] = tableToNNFormat(myTable)
-%TABLETONNFORMAT take a matlab table of songs  (of joes format)
+%TABLETONNFORMAT take a matlab table of songs  (of XD's format actually)
 % i.e. having 'Genre' and 'featureData' as columns
 % and convert into arrays to plug into NN.
 % format INPUTS (features) and TARGETS (genres) for trainNN
@@ -13,8 +13,7 @@ genreArray = [];
 featureData = [];
 outTable = table(id,genre, genreArray,featureData);
 
-
-numSegments = 400;
+numSegments = 300;
 input = [];
 target = [];
 index = 1;

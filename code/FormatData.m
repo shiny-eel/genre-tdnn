@@ -2,6 +2,7 @@ clear; clc; close all;
 % Declare genres
 load('lib/genres.mat', 'GenreSets');
 gs = GenreSets.five;
+gs = GenreSets.ten;
 % Load some data that follows Joe's data format
 % i.e. (Table w id, Genre, features)
 sample = load('samples/raw-all.mat', 'data');
@@ -13,12 +14,18 @@ Songs.PopRock = data(ismember(data.Genre, gs(2)),:);
 Songs.RnB = data(ismember(data.Genre, gs(3)),:);
 Songs.Jazz = data(ismember(data.Genre, gs(4)),:);
 Songs.Blues = data(ismember(data.Genre, gs(5)),:);
+Songs.Country = data(ismember(data.Genre, gs(6)),:);
+Songs.Electronic = data(ismember(data.Genre, gs(7)),:);
+Songs.Reggae = data(ismember(data.Genre, gs(8)),:);
+Songs.Latin = data(ismember(data.Genre, gs(9)),:);
+Songs.International = data(ismember(data.Genre, gs(10)),:);
 
 trainSongs=cell2table({});
 validSongs=cell2table({});
 
 fields = fieldnames(Songs);
 songsPerGenre = 120;
+songsPerGenre = 120; % Max for 10 genres - Reggae only has 120 songs
 
 % Split 7:3 with equal weightings between genres
 % Iterate through genres

@@ -1,12 +1,14 @@
 % NNGamma.m is an CLONE of NNBeta
-clear;clc;close all;
+%clear;clc;close all;
 
 % GET DATA
 addpath('samples');
-dataset = load('sample-allsongs-400s-5g.mat');
+dataset = load('sample-allsongs-300s-10g.mat');
 load('code/lib/genres.mat', 'GenreSets');
-genres = GenreSets.five;
+genres = GenreSets.ten;
 % EITHER LOAD OR CREATE+TRAIN A TDNN
+
+% Uncomment this block to build the TDNN
 MAKE_NEW = 1;
 if (MAKE_NEW)
     myTDNN = createTDNN();
@@ -25,7 +27,7 @@ p = plotResultsTable(resultsTable);
 title("Unseen validation set");
 % hold on;
 
-load('samples/traintable-allsongs-400s-5g.mat', 'trainTable');
+load('samples/traintable-allsongs-300s-10g.mat', 'trainTable');
 otherresultsTable = validateNN(myTDNN, trainTable);
 % subplot(2,1,2);;;
 figure();
