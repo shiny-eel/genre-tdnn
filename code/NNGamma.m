@@ -10,7 +10,7 @@ genres = GenreSets.five;
 MAKE_NEW = 1;
 if (MAKE_NEW)
     myTDNN = createTDNN();
-%     myTDNN.trainParam.showWindow = ''''true;
+    myTDNN.trainParam.showWindow = true;
     
     myTDNN = trainNN(myTDNN, dataset.trainIn, dataset.trainTarget);
 else
