@@ -4,8 +4,8 @@ clear;clc;close all;
 % GET DATA
 addpath('samples');
 dataset = load('DecadePrediction/testData-400.mat');
-load('code/lib/genres.mat', 'GenreSets');
-genres = GenreSets.five;
+% load('code/lib/genres.mat', 'GenreSets');
+% genres = GenreSets.five;
 % EITHER LOAD OR CREATE+TRAIN A TDNN
 MAKE_NEW = 1;
 if (MAKE_NEW)
