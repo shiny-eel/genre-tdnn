@@ -46,28 +46,32 @@ trainIn = tonndata([doubleSmall1;doubleSmall2], true, false);
 target = [repmat( g1,1,len ),repmat( g2,1,len ),repmat( g3,1,len ), repmat(g4,1,len)];
 doubleTarget = [target, target];
 
-% Plotting input data
-figure();
-subplot(4,1,1);
-plot(transpose(doubleTarget)); hold on;
-plot(transpose(doubleSmall1));
-plot(transpose(doubleSmall2));
-title("Input Data (2 features)");
-xlabel("time");
-trainTarget = tonndata( doubleTarget, true, false); 
 
+trainTarget = tonndata( doubleTarget, true, false); 
 % Format and use data to train
 [Xs,Xi,Ai,Ts] = preparets(TDNN,trainIn, trainTarget); % Don't get affected by different delay size.
 TDNN = train(TDNN,Xs, Ts, Xi, Ai);
 
+
+
+% Plotting input data
+figure();
+subplot(2,1,1);
+plot(transpose(smallInput1), 'DisplayName','Feature 1');
+ hold on;
+plot(transpose(smallInput2), 'DisplayName','Feature 2');
+title("Training Input Data (2 features)");
+xlabel("time (by segment)");
+legend;
+
 inpTest = transpose([smallInput1;smallInput2]);
 [singleOut, fullOut] = getClassification(TDNN, inpTest);
 
-subplot(4,1,2);
+subplot(2,1,2);
 plot(fullOut);
-legend('1','2','3','4');
-title("Output wave for training data (one sect each genre)");
-xlabel("time");
+legend('Genre 1','Genre 2','Genre 3','Genre 4');
+title("Output waves for training data (150 segments per genre)");
+xlabel("time (by segment)");
 ylabel("'Confidence' in genre");
 
 % Feed the NN never-seen-before data
@@ -76,37 +80,18 @@ in = transpose([f1(2,1:len2+len);f2(2,1:len2+len)]);
 [singleOut, fullOut] = getClassification(TDNN, in);
 
 % Plot results
-subplot(4,1,3);
+figure();
+subplot(2,1,1);
 plot(fullOut);
-legend('1','2','3','4');
+legend('Genre 1','Genre 2','Genre 3','Genre 4');
 title("Output wave for unseen data (Genre 2)");
-xlabel("time");
+xlabel("time (by segment)");
 ylabel("'Confidence' in genre");
 
-subplot(4,1,4);
+subplot(2,1,2);
 bar(singleOut);
 ylim([0 1]);
-title("Predicted genre of unseen data (Genre 2)");
-xlabel("time");
+title("Predicted genre of unseen song (Genre 2)");
+xlabel("time (by segment)");
 ylabel("'Confidence' in genre");
 
-
-% predicc{2} = mean(mat,2);
-
-% testA = tonndata(song(1,1:len),true,false);
-% nnOutput = TDNN(testA);
-% 
-% mat = cell2mat(nnOutput);
-% predicc{1} = mean(mat,2);
-% 
-% testC = tonndata(song(3,1:len),true,false);
-% nnOutput = TDNN(testC);
-% 
-% mat = cell2mat(nnOutput);
-% predicc{3} = mean(mat,2);
-% 
-% testD = tonndata(song(4,1:len),true,false);
-% nnOutput = TDNN(testD);
-% 
-% mat = cell2mat(nnOutput);
-% predicc{4} = mean(mat,2);
