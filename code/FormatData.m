@@ -1,11 +1,14 @@
 clear; clc; close all;
 % Declare genres
+addpath('code/lib');
 load('lib/genres.mat', 'GenreSets');
 gs = GenreSets.five;
 % Load some data that follows Joe's data format
 % i.e. (Table w id, Genre, features)
 sample = load('samples/raw-all.mat', 'data');
 data = sample.data;
+shuffledData = data(randperm(size(orderedArray,1)),:);
+data = shuffledData;
 
 % Split by specified genres
 Songs.Rap = data(ismember(data.Genre, gs(1)),:);
@@ -22,8 +25,8 @@ songsPerGenre = 120;
 
 % Split 7:3 with equal weightings between genres
 % Iterate through genres
-for idx = 1:length(fields)
-    genreName = fields{idx};
+for randRows = 1:length(fields)
+    genreName = fields{randRows};
     singleGenre = Songs.(genreName);
     if isstruct(singleGenre)
         disp("OOPS: Shouldn't be a struct");
@@ -57,6 +60,6 @@ fprintf("NUM SONGS IN VALID SPLIT: %d\n", height(validTable));
 % 
 % Save to file.
 outputFile = "samples/sample-CHANGEME.mat";
-% save(outputFile, 'validIn', 'validTarget', 'trainIn', 'trainTarget', 'validTable');
+% save(outputFile, 'validIn', 'validTarget', 'trainIn', 'trainTarget', 'validTable', 'trainTable');
  
 
