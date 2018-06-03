@@ -7,7 +7,7 @@ gs = GenreSets.five;
 % i.e. (Table w id, Genre, features)
 sample = load('samples/raw-all.mat', 'data');
 data = sample.data;
-shuffledData = data(randperm(size(orderedArray,1)),:);
+shuffledData = data(randperm(height(data)),:);
 data = shuffledData;
 
 % Split by specified genres
